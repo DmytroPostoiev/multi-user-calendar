@@ -1,0 +1,141 @@
+
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.settings-card {
+  background: var(--surface-color);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.settings-card h2 {
+  font-size: 28px;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.settings-subtitle {
+  color: var(--secondary-color);
+  margin-bottom: 32px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.settings-section {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section:last-of-type {
+  border-bottom: none;
+}
+
+.settings-section h3 {
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 16px;
+}
+
+.theme-selector {
+  display: flex;
+  gap: 12px;
+}
+
+.theme-option {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: var(--background-color);
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.theme-option:hover {
+  border-color: var(--primary-color);
+}
+
+.theme-option.selected {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+.accent-color-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.accent-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.accent-option:hover {
+  transform: scale(1.1);
+}
+
+.accent-option.selected {
+  border-color: var(--text-color);
+  transform: scale(1.1);
+}
+
+.account-info {
+  background: var(--background-color);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.account-info p {
+  margin: 4px 0;
+  color: var(--text-color);
+}
+
+.settings-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.settings-message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.settings-message.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+@media (max-width: 600px) {
+  .settings-card {
+    padding: 24px;
+  }
+
+  .settings-card h2 {
+    font-size: 24px;
+  }
+
+  .theme-selector {
+    flex-direction: column;
+  }
+
+  .accent-option {
+    width: 36px;
+    height: 36px;
+  }
+}

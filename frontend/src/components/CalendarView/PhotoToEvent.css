@@ -1,0 +1,31 @@
+.photo-to-event {
+  padding: 16px;
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.photo-to-event-header {
+  margin-bottom: 16px;
+}
+
+.photo-to-event-header h3 {
+  margin: 0 0 4px 0;
+  color: var(--text-color);
+}
+
+.photo-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .photo-to-event {
+    padding: 12px;
+  }
+  .photo-actions button {
+    flex: 1;
+    justify-content: center;
+  }
+}

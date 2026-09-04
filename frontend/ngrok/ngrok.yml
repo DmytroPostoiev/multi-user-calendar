@@ -1,0 +1,8 @@
+﻿version: "2"
+authtoken: 3IgWG2QyXHkgn5Q4xImG8FNafqf_22RJJ6BZqCQMfmtmvbqEU
+tunnels:
+  calendar:
+    proto: http
+    addr: 3000
+    domain: voting-prone-skipper.ngrok-free.dev
+    inspect: true
