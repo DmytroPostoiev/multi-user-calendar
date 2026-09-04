@@ -8,7 +8,7 @@ import YearView from './YearView'
 import TableView from './TableView'
 import DayModal from '../DayModal/DayModal'
 import ExportPDF from './ExportPDF'
-import PhotoToEvent from './PhotoToEvent'
+
 import Button from '../common/Button'
 import { navigateDate, formatDate } from '../../utils/dateUtils'
 import './CalendarView.css'
@@ -198,12 +198,7 @@ const CalendarView = () => {
       {/* ==========================================
           FOTO ZU TERMIN (KI-Funktion)
           ========================================== */}
-      <PhotoToEvent onEventCreated={() => {
-        // Nach Event-Erstellung neu laden
-        const start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
-        const end = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-        fetchEvents(start, end)
-      }} />
+      
 
       {/* ==========================================
           HEUTIGE TERMINE (Übersicht)
