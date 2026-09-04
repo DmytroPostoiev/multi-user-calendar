@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import Tesseract from 'tesseract.js'
+// import Tesseract from 'tesseract.js'
 import { useCalendar } from '../../context/CalendarContext'
 import { useAuth } from '../../context/AuthContext'
 import { formatDate } from '../../utils/dateUtils'
@@ -109,39 +109,13 @@ const PhotoToEvent = ({ onEventCreated }) => {
   // OCR - MEHRERE TERMINE EXTRAHIEREN
   // ============================================
   const recognizeText = async (imageData) => {
-    setLoading(true)
-    setRecognizedText('📖 Erkenne Text...')
-    setError(null)
-    setExtractedEvents([])
-    
-    try {
-      const result = await Tesseract.recognize(imageData, 'deu+eng', {
-        logger: (m) => {
-          if (m.status === 'recognizing text') {
-            setRecognizedText(`📖 Erkenne Text: ${Math.round(m.progress * 100)}%`)
-          }
-        }
-      })
-      
-      const text = result.data.text
-      setRecognizedText(text)
-      
-      // === MEHRERE TERMINE EXTRAHIEREN ===
-      const events = extractMultipleEvents(text)
-      setExtractedEvents(events)
-      
-      if (events.length === 0) {
-        setError('❌ Keine Termine im Text gefunden. Bitte versuche es erneut.')
-      }
-      
-    } catch (err) {
-      console.error('OCR Fehler:', err)
-      setError('❌ Text konnte nicht erkannt werden. Bitte versuche es erneut.')
-      setRecognizedText('')
-    } finally {
-      setLoading(false)
-    }
-  }
+  setLoading(true)
+  setRecognizedText('📖 Demo-Modus: Tesseract nicht installiert')
+  setError('⚠️ tesseract.js ist nicht installiert. Bitte installiere es mit: npm install tesseract.js')
+  setLoading(false)
+}
+        
+     
 
   // ============================================
   // MEHRERE TERMINE AUS TEXT EXTRAHIEREN
