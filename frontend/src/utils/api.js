@@ -1,24 +1,14 @@
 import axios from 'axios'
 
-// ============================================
-// API-URL für Vercel (Produktion) vs. Lokal
-// ============================================
 const getApiUrl = () => {
-  // In Produktion (Vercel) → volle URL
-  if (import.meta.env.PROD) {
-    return 'https://multi-user-calendar.vercel.app/api'
+  const hostname = window.location.hostname
+  
+  // Wenn nicht lokal (über Netzwerk-IP)
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+    return `http://${hostname}:5000/api`
   }
   
-  // In Entwicklung (lokal)
-  if (import.meta.env.DEV) {
-    const hostname = window.location.hostname
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      return `http://${hostname}:5000/api`
-    }
-    return '/api'
-  }
-  
-  // Fallback
+  // Lokal
   return '/api'
 }
 
@@ -27,9 +17,6 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' }
 })
 
-// ============================================
-// Interceptor: Token automatisch anhängen
-// ============================================
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
@@ -41,9 +28,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-// ============================================
-// Interceptor: Bei 401 → Logout
-// ============================================
 api.interceptors.response.use(
   (response) => response,
   (error) => {

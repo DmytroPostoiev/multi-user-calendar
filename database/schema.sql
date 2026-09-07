@@ -13,7 +13,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Events (MIT Erinnerungs-Spalten)
+-- Events
 CREATE TABLE events (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -23,8 +23,6 @@ CREATE TABLE events (
     end_time TIMESTAMP WITH TIME ZONE NOT NULL,
     color VARCHAR(20) DEFAULT '#4a90e2',
     visibility VARCHAR(20) DEFAULT 'private' CHECK (visibility IN ('private', 'shared', 'public')),
-    reminder BOOLEAN DEFAULT FALSE,
-    reminder_minutes INTEGER DEFAULT 15,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
