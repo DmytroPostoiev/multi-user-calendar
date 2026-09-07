@@ -1,23 +1,35 @@
 import axios from 'axios'
 
-// Dynamische API-URL - erkennt ob im Netzwerk oder lokal
+// ============================================
+// API-URL für Vercel (Produktion) vs. Lokal
+// ============================================
 const getApiUrl = () => {
-  // In Entwicklung: Verwende die Server-IP
-  if (import.meta.env.DEV) {
-    // Versuche die Netzwerk-IP zu finden
-    const hostname = window.location.hostname;
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      return `http://${hostname}:5000/api`;
-    }
+  // In Produktion (Vercel) → volle URL
+  if (import.meta.env.PROD) {
+    return 'https://multi-user-calendar.vercel.app/api'
   }
-  return import.meta.env.VITE_API_URL || '/api';
-};
+  
+  // In Entwicklung (lokal)
+  if (import.meta.env.DEV) {
+    const hostname = window.location.hostname
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return `http://${hostname}:5000/api`
+    }
+    return '/api'
+  }
+  
+  // Fallback
+  return '/api'
+}
 
 const api = axios.create({
   baseURL: getApiUrl(),
   headers: { 'Content-Type': 'application/json' }
-});
+})
 
+// ============================================
+// Interceptor: Token automatisch anhängen
+// ============================================
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
@@ -29,6 +41,9 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
+// ============================================
+// Interceptor: Bei 401 → Logout
+// ============================================
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -41,4 +56,3 @@ api.interceptors.response.use(
 )
 
 export default api
-
