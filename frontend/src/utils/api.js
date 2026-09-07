@@ -1,38 +1,17 @@
 import axios from 'axios'
 
 // ============================================
-// API-URL dynamisch erkennen
+// API-URL – NUR für Vercel (HTTPS)
 // ============================================
-const getApiUrl = () => {
-  // In Produktion (Vercel) → HTTPS
-  if (import.meta.env.PROD) {
-    return 'https://multi-user-calendar1-six.vercel.app/api'
-  }
-  
-  // In Entwicklung (lokal)
-  if (import.meta.env.DEV) {
-    const hostname = window.location.hostname
-    
-    // Wenn über Netzwerk-IP (nicht localhost)
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      return `http://${hostname}:5000/api`
-    }
-    
-    // Lokal (localhost)
-    return '/api'
-  }
-  
-  // Fallback
-  return '/api'
-}
+const API_URL = 'https://multi-user-calendar1-six.vercel.app/api'
 
 const api = axios.create({
-  baseURL: getApiUrl(),
+  baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' }
 })
 
 // ============================================
-// Interceptor: Token automatisch anhängen
+// Interceptor: Token anhängen
 // ============================================
 api.interceptors.request.use(
   (config) => {
