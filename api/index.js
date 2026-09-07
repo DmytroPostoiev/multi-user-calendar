@@ -5,13 +5,39 @@ const { Pool } = require('pg');
 
 const app = express();
 
+// ============================================
+// CORS - ALLE VERCEL-DOMAINS ERLAUBEN
+// ============================================
 app.use(cors({
-  origin: ['https://multi-user-calendar.vercel.app', 'http://localhost:3000'],
-  credentials: true
+  origin: function (origin, callback) {
+    // Erlaube alle Vercel-Domains und localhost
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'https://multi-user-calendar.vercel.app',
+      'https://multi-user-calendar1-six.vercel.app',
+      'https://multi-user-calendar1.vercel.app',
+      'http://localhost:3000',
+      'http://localhost:5173'
+    ];
+    
+    if (allowedOrigins.includes(origin) || origin.includes('vercel.app')) {
+      callback(null, true);
+    } else {
+      console.log('❌ Blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
+// ============================================
+// DATENBANK (Neon)
+// ============================================
 const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -53,6 +79,7 @@ app.post('/api/auth/register', async (req, res) => {
     
     res.json({ token, user });
   } catch (error) {
+    console.error('❌ Register error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -78,6 +105,7 @@ app.post('/api/auth/login', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || '171120', { expiresIn: '7d' });
     res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
   } catch (error) {
+    console.error('❌ Login error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -99,6 +127,7 @@ app.get('/api/events', async (req, res) => {
     
     res.json(result.rows);
   } catch (error) {
+    console.error('❌ Get events error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -121,6 +150,7 @@ app.post('/api/events', async (req, res) => {
     
     res.json(result.rows[0]);
   } catch (error) {
+    console.error('❌ Create event error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -144,6 +174,7 @@ app.delete('/api/events/:id', async (req, res) => {
     await pool.query('DELETE FROM events WHERE id = $1', [id]);
     res.json({ message: 'Termin gelöscht' });
   } catch (error) {
+    console.error('❌ Delete event error:', error);
     res.status(500).json({ error: error.message });
   }
 });
